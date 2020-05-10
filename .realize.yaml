@@ -1,0 +1,23 @@
+settings:
+  legacy:
+    force: false
+    interval: 0s
+schema:
+- name: src
+  path: .
+  commands:
+    install:
+      status: true
+      method: go build -o /go/src/server /go/src/cmd/server.go
+    run:
+      status: true
+      method: /go/src/server
+  watcher:
+    extensions:
+    - go
+    paths:
+    - .
+    ignored_paths:
+    - .git
+    - .realize
+    - vendor
