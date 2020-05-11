@@ -4,6 +4,8 @@ services:
     build: .
     ports:
       - '1323:1323'
+    environment:
+      - 'CGO_ENABLED=1'
     volumes:
       - .:/go/src
       - pkg:/go/pkg
