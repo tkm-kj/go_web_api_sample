@@ -1,0 +1,4 @@
+development:
+  dialect: mysql
+  datasource: root:password@tcp(db:3306)/dev_db?parseTime=true
+  dir: migrations
