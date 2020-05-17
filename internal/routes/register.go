@@ -7,4 +7,5 @@ import (
 
 func Register(e *echo.Echo) {
 	e.GET("/hello", handler.GetHello)
+	e.GET("/posts/:id", handler.GetPost)
 }

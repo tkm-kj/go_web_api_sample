@@ -10,6 +10,8 @@ services:
       - .:/go/src
       - pkg:/go/pkg
     command: realize start
+    depends_on:
+      - db
   db:
     image: mysql:8.0
     restart: always
