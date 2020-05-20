@@ -11,7 +11,7 @@ type Post struct {
 }
 
 type PostRepository interface {
-	Get(id int) *Post
+	Get(id int) (*Post, error)
 }
 
 type postRepository struct {
@@ -24,8 +24,11 @@ func NewPostRepository(db *gorm.DB) *postRepository {
 	}
 }
 
-func (r *postRepository) Get(id int) *Post {
+func (r *postRepository) Get(id int) (*Post, error) {
 	var post Post
 	r.db.First(&post, id)
-	return &post
+	if post.ID == 0 {
+		return nil, &RecordNotFoundError{}
+	}
+	return &post, nil
 }

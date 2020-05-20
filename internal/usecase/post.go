@@ -18,6 +18,6 @@ func NewPostUsecase(repo repository.PostRepository) *postUsecase {
 	}
 }
 
-func (u *postUsecase) Get(id int) *repository.Post {
+func (u *postUsecase) Get(id int) (*repository.Post, error) {
 	return u.repo.Get(id)
 }

@@ -1,21 +1,26 @@
 package handler
 
 import (
-	"fmt"
 	"net/http"
 	"strconv"
 
 	"github.com/labstack/echo/v4"
 	"github.com/tkm-kj/go_web_api_sample/internal/middleware"
 	"github.com/tkm-kj/go_web_api_sample/internal/repository"
+	"github.com/tkm-kj/go_web_api_sample/internal/serializer"
 	"github.com/tkm-kj/go_web_api_sample/internal/usecase"
 )
 
 func GetPost(c echo.Context) error {
 	u := usecase.NewPostUsecase(repository.NewPostRepository(middleware.GetMySQLConnection()))
-	// TODO: error handling
-	id, _ := strconv.Atoi(c.Param("id"))
-	post := u.Get(id)
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		return handleError(err, c)
+	}
+	post, err := u.Get(id)
+	if err != nil {
+		return handleError(err, c)
+	}
 
-	return c.String(http.StatusOK, fmt.Sprintf("post: %+v", post))
+	return c.JSON(http.StatusOK, serializer.NewPostSerializer(post))
 }
