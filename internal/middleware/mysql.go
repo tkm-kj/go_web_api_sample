@@ -1,7 +1,9 @@
 package middleware
 
 import (
+	"fmt"
 	"log"
+	"os"
 
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
@@ -19,7 +21,7 @@ func CloseMySQLConnection() {
 }
 
 func init() {
-	db, err := gorm.Open("mysql", "root:password@tcp(db:3306)/dev_db?charset=utf8&parseTime=True&loc=Local")
+	db, err := gorm.Open("mysql", fmt.Sprintf("%s:%s@tcp(%s:3306)/%s?charset=utf8&parseTime=True&loc=Local", os.Getenv("DB_USER"), os.Getenv("DB_PASSWORD"), os.Getenv("DB_HOST"), os.Getenv("DB_NAME")))
 	if err != nil {
 		log.Fatalf("fatal error!: %+v", err)
 	}
