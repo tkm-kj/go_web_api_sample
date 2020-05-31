@@ -1,1 +1,6 @@
 server
+secrets.yml
+cloud_sql_proxy
+main
+.envrc
+dev.env

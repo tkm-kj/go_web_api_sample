@@ -3,10 +3,10 @@ package middleware
 import (
 	"fmt"
 	"log"
-	"os"
 
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
+	"github.com/tkm-kj/go_web_api_sample/internal/config"
 )
 
 var mysqlInstance *gorm.DB
@@ -21,7 +21,14 @@ func CloseMySQLConnection() {
 }
 
 func init() {
-	db, err := gorm.Open("mysql", fmt.Sprintf("%s:%s@tcp(%s:3306)/%s?charset=utf8&parseTime=True&loc=Local", os.Getenv("DB_USER"), os.Getenv("DB_PASSWORD"), os.Getenv("DB_HOST"), os.Getenv("DB_NAME")))
+	var db *gorm.DB
+	var err error
+	env := config.GetEnvVar()
+	if config.IsLocal() {
+		db, err = gorm.Open("mysql", fmt.Sprintf("%s:%s@tcp(%s:3306)/%s?charset=utf8&parseTime=True&loc=Local", env.DBUser, env.DBPassword, env.DBHost, env.DBName))
+	} else {
+		db, err = gorm.Open("mysql", fmt.Sprintf("%s:%s@unix(/cloudsql/%s)/%s", env.DBUser, env.DBPassword, env.DBHost, env.DBName))
+	}
 	if err != nil {
 		log.Fatalf("fatal error!: %+v", err)
 	}

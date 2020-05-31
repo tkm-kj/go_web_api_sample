@@ -10,6 +10,7 @@ import (
 	"github.com/tkm-kj/go_web_api_sample/internal/routes"
 )
 
+// GAE用のサーバー
 func main() {
 	e := echo.New()
 

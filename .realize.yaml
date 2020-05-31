@@ -9,6 +9,7 @@ schema:
     install:
       status: true
       method: go build -o /go/src/server /go/src/cmd/server/main.go
+      # method: go build -o /go/src/server /go/src/cmd/app.go
     run:
       status: true
       method: /go/src/server
